@@ -23,10 +23,11 @@ while(True):
         line = line.decode("ISO-8859-1")
         if re.match("^\$..GGA", line):
             s = line.split(',')
-            s[6] = '4'
-            tmpline = ','.join(s)[1:-5]
-            chk = checksum(tmpline)
-            ser.write(bytes(','.join(s)[:-5]+chk+"\r\n", "UTF-8"))
+            s[6] = '2'
+            s[13] = '0.0'
+            s[14] = '0666'
+            chk = checksum(','.join(s)[1:])
+            ser.write(bytes(','.join(s)+chk+"\r\n", "UTF-8"))
         else:
             ser.write(bytes(line, "UTF-8"))
     except:
